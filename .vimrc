@@ -56,6 +56,7 @@ Plug 'christoomey/vim-sort-motion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'nlknguyen/papercolor-theme'
 
 call plug#end()
 
@@ -541,6 +542,18 @@ nmap <Leader>c :Commands<CR>
 
 " NERDTree --------------------------------------------------------------------
 nmap <F5> :NERDTreeToggle<CR><c-w><c-w>
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
 " Airline ---------------------------------------------------------------------
 nmap <Leader>ar :AirlineRefresh<CR>
@@ -633,14 +646,27 @@ nmap ,D :vsp <CR>:call jedi#goto()<CR>
 
 " Pymode --------------------------------------
 let g:pymode_breakpoint_bind = '<leader>B'
+let g:pymode_python = 'python3'
 
-colorscheme iceberg
+" colorscheme iceberg
+" set background=dark
 set background=dark
+colorscheme PaperColor
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default.dark': {
+  \       'override' : {
+  \         'color00' : ['#010101', '232'],
+  \         'linenumber_bg' : ['#010101', '232']
+  \       }
+  \     }
+  \   }
+  \ }
 
-"Color desert
 set cursorline
-hi CursorLine term=bold cterm=bold guibg=Grey ctermbg=Black
+hi CursorLine term=bold cterm=bold guibg=Grey40
+" ctermbg=Grey
 
-highlight ColorColumn ctermbg=red
-call matchadd('ColorColumn', '\%81v', 100)
+" highlight ColorColumn ctermbg=red
+" call matchadd('ColorColumn', '\%81v', 100)
 
