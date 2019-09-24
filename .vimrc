@@ -20,14 +20,17 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'w0rp/ale'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
-Plug 'fisadev/fisa-vim-colorscheme'
+Plug 'airblade/vim-gitgutter'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'fisadev/fisa-vim-colorscheme'
 
 " Search results counter
 Plug 'vim-scripts/IndexedSearch'
@@ -157,8 +160,6 @@ set tm=500
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
 
 
 " Set extra options when running in GUI mode
@@ -176,6 +177,31 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+
+" Colorscheme -------------------------------------
+" colorscheme iceberg
+colorscheme PaperColor
+set background=dark
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default.dark': {
+  \       'override' : {
+  \         'color00' : ['#010101', '232'],
+  \         'linenumber_bg' : ['#010101', '232']
+  \       }
+  \     }
+  \   }
+  \ }
+
+" Enable syntax highlighting
+syntax enable
+
+set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
+" ctermbg=Grey
+
+highlight ColorColumn ctermbg=red
+call matchadd('ColorColumn', '\%79v', 100)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -400,7 +426,7 @@ function! VisualSelection(direction) range
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
         call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-    elseif a:direction == 'replace'
+    elseif a:direction == 's'
         call CmdLine("%s" . '/'. l:pattern . '/')
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
@@ -409,7 +435,6 @@ function! VisualSelection(direction) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
 
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -541,6 +566,7 @@ nmap <Leader>' :Marks<CR>
 nmap <Leader>c :Commands<CR>
 
 " NERDTree --------------------------------------------------------------------
+set shell=sh
 nmap <F5> :NERDTreeToggle<CR><c-w><c-w>
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -645,28 +671,11 @@ nmap ,D :vsp <CR>:call jedi#goto()<CR>
 " autocmd FileType vim let b:vcm_tab_complete = 'vim'
 
 " Pymode --------------------------------------
-let g:pymode_breakpoint_bind = '<leader>B'
+" if has('python')
+" let g:pymode_python = 'python'
+" else
 let g:pymode_python = 'python3'
-
-" colorscheme iceberg
-" set background=dark
-set background=dark
-colorscheme PaperColor
-let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default.dark': {
-  \       'override' : {
-  \         'color00' : ['#010101', '232'],
-  \         'linenumber_bg' : ['#010101', '232']
-  \       }
-  \     }
-  \   }
-  \ }
-
-set cursorline
-hi CursorLine term=bold cterm=bold guibg=Grey40
-" ctermbg=Grey
-
-" highlight ColorColumn ctermbg=red
-" call matchadd('ColorColumn', '\%81v', 100)
-
+" endif
+let g:pymode_breakpoint_bind = '<leader>B'
+let g:pymode_breakpoint_cmd = 'import pdb; pdb.set_trace()  # XXX BREAKPOINT'
+let g:pymode_options_colorcolumn = 1
