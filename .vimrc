@@ -19,8 +19,12 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-Plug 'w0rp/ale'
+Plug 'tpope/vim-fugitive'
+if v:version > 800
+    Plug 'w0rp/ale'
+else
+    Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+endif
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -58,7 +62,6 @@ Plug 'christoomey/vim-system-copy'
 Plug 'christoomey/vim-sort-motion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'mileszs/ack.vim'
-Plug 'tpope/vim-fugitive'
 Plug 'nlknguyen/papercolor-theme'
 
 call plug#end()
