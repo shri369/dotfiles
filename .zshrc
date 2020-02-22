@@ -69,9 +69,9 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git yum extract rsync zsh-syntax-highlighting)
+plugins=(git extract rsync zsh-syntax-highlighting)
 
-SPACESHIP_EXIT_CODE_SHOW=true
+# SPACESHIP_EXIT_CODE_SHOW=true
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,6 +100,14 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vf='vim $(find . -type f | egrep -v ".git" | fzf)'
+alias k9='kill -9 $(ps ax | fzf | awk "{print\$1}")'
+alias vd='vimdiff'
+alias v='vim'
+alias ssg='secfsd -status guard'
+alias ssgv='secfsd -status guard -v'
+alias vhs='vmssc host show'
+alias psh='parallel-ssh'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export EDITOR=vim

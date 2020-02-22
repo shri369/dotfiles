@@ -19,50 +19,51 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-fugitive'
-if v:version > 800
-    Plug 'w0rp/ale'
-else
-    Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-endif
-Plug 'majutsushi/tagbar'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'fisadev/fisa-vim-colorscheme'
+	Plug 'tpope/vim-fugitive'
+	if v:version > 800
+		Plug 'w0rp/ale'
+	else
+		Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+	endif
+	Plug 'majutsushi/tagbar'
+	Plug 'scrooloose/nerdtree'
+	Plug 'Xuyuanp/nerdtree-git-plugin'
+	Plug 'junegunn/fzf'
+	Plug 'junegunn/fzf.vim'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'airblade/vim-gitgutter'
+	" Plug 'altercation/vim-colors-solarized'
+	" Plug 'fisadev/fisa-vim-colorscheme'
 
-" Search results counter
-Plug 'vim-scripts/IndexedSearch'
+	" Search results counter
+	Plug 'vim-scripts/IndexedSearch'
 
-" Pending tasks list
-Plug 'fisadev/FixedTaskList.vim'
+	" Pending tasks list
+	Plug 'fisadev/FixedTaskList.vim'
 
-" Code commenter
-Plug 'scrooloose/nerdcommenter'
+	" Code commenter
+	Plug 'scrooloose/nerdcommenter'
 
-" Python autocompletion, go to definition.
-Plug 'davidhalter/jedi-vim'
-" Better autocompletion
-" Plug 'Shougo/neocomplcache.vim'
-" Plug 'ajh17/vimcompletesme'
+	" Python autocompletion, go to definition.
+    Plug 'davidhalter/jedi-vim'
+	" Better autocompletion
+    Plug 'Shougo/neocomplcache.vim'
+	" Plug 'ajh17/vimcompletesme'
+    " Plug 'Valloric/YouCompleteMe'
 
-Plug 'tpope/vim-surround'
-Plug 'powerline/powerline-fonts'
-Plug 'ajh17/spacegray.vim'
-Plug 'cocopon/iceberg.vim'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'vim-scripts/ReplaceWithRegister'
-Plug 'christoomey/vim-system-copy'
-Plug 'christoomey/vim-sort-motion'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'mileszs/ack.vim'
-Plug 'nlknguyen/papercolor-theme'
+	Plug 'tpope/vim-surround'
+	Plug 'powerline/powerline-fonts'
+	Plug 'ajh17/spacegray.vim'
+	Plug 'cocopon/iceberg.vim'
+	Plug 'tpope/vim-repeat'
+	Plug 'tpope/vim-commentary'
+	Plug 'vim-scripts/ReplaceWithRegister'
+	Plug 'christoomey/vim-system-copy'
+	Plug 'christoomey/vim-sort-motion'
+	Plug 'michaeljsmith/vim-indent-object'
+	Plug 'mileszs/ack.vim'
+	Plug 'nlknguyen/papercolor-theme'
 
 call plug#end()
 
@@ -203,8 +204,8 @@ set cursorline
 hi CursorLine term=bold cterm=bold guibg=Grey40
 " ctermbg=Grey
 
-highlight ColorColumn ctermbg=red
-call matchadd('ColorColumn', '\%79v', 100)
+" highlight ColorColumn ctermbg=red
+" call matchadd('ColorColumn', '\%79v', 100)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -554,12 +555,15 @@ set splitbelow
 " endf
 "
 
+" Python keymap -------------------------------------------------------
+au! FileType python map <buffer> <Leader>B <Esc>Oimport pdb; pdb.set_trace()   # XXX BREAKPOINT<Esc>j0
+
 " Tagbar --------------------------------------------------------------
 nmap <F8> :TagbarToggle<CR>
 
 " FZF ----------------------------------------------------------------
 nmap <Leader>f :Files<CR>
-nmap <Leader>b :Buffers<CR>
+nmap ; :Buffers<CR>
 nmap <Leader>h :History<CR>
 nmap <Leader>t :BTags<CR>
 nmap <Leader>T :Tags<CR>
@@ -592,6 +596,7 @@ let g:airline_symbols = {}
 endif
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " let g:airline#extensions#tabline#left_sep = '▶'
 " let g:airline#extensions#tabline#left_alt_sep = ''
 " let g:airline#extensions#tabline#formatter = 'default'
@@ -649,36 +654,61 @@ nmap ,D :vsp <CR>:call jedi#goto()<CR>
 
 
 
-" " NeoComplCache ------------------------------
-"
-" " most of them not documented because I'm not sure how they work
-" " (docs aren't good, had to do a lot of trial and error to make
-" " it play nice)
-" let g:neocomplcache_enable_at_startup = 1
-" let g:neocomplcache_enable_ignore_case = 1
-" let g:neocomplcache_enable_smart_case = 1
-" let g:neocomplcache_enable_auto_select = 1
-" let g:neocomplcache_enable_fuzzy_completion = 1
-" let g:neocomplcache_enable_camel_case_completion = 1
-" let g:neocomplcache_enable_underbar_completion = 1
-" let g:neocomplcache_fuzzy_completion_start_length = 1
-" let g:neocomplcache_auto_completion_start_length = 1
-" let g:neocomplcache_manual_completion_start_length = 1
-" let g:neocomplcache_min_keyword_length = 1
-" let g:neocomplcache_min_syntax_length = 1
-" " complete with workds from any opened file
-" let g:neocomplcache_same_filetype_lists = {}
-" let g:neocomplcache_same_filetype_lists._ = '_'
+" NeoComplCache ------------------------------
+
+" most of them not documented because I'm not sure how they work
+" (docs aren't good, had to do a lot of trial and error to make
+" it play nice)
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_ignore_case = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_fuzzy_completion = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_fuzzy_completion_start_length = 1
+let g:neocomplcache_auto_completion_start_length = 1
+let g:neocomplcache_manual_completion_start_length = 1
+let g:neocomplcache_min_keyword_length = 1
+let g:neocomplcache_min_syntax_length = 1
+" complete with workds from any opened file
+let g:neocomplcache_same_filetype_lists = {}
+let g:neocomplcache_same_filetype_lists._ = '_'
 
 " VimCompletesMe ------------------------------------
 " autocmd FileType vim let b:vcm_tab_complete = 'vim'
 
 " Pymode --------------------------------------
-" if has('python')
-" let g:pymode_python = 'python'
-" else
+if has('python')
+let g:pymode_python = 'python'
+else
 let g:pymode_python = 'python3'
-" endif
-let g:pymode_breakpoint_bind = '<leader>B'
-let g:pymode_breakpoint_cmd = 'import pdb; pdb.set_trace()  # XXX BREAKPOINT'
+endif
+" let g:pymode_breakpoint_bind = '<leader>B'
+" let g:pymode_breakpoint_cmd = 'import pdb; pdb.set_trace()  # XXX BREAKPOINT'
 let g:pymode_options_colorcolumn = 1
+
+" ALE ------------------------------------------------
+let g:ale_linters={
+            \   'python': [
+            \         'pyls',
+            \         'flake8',
+            \         'pycodestyle',
+            \         'pylint',
+            \         'pyflakes',
+            \          ],
+            \}
+let g:ale_python_pylint_executable = 'python3'
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_fixers = {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'python': [
+            \       'autopep8',
+            \       'isort',
+            \   ],
+            \}
+let g:ale_lint_on_enter=0
+let g:ale_lint_on_save=1
+let g:ale_lint_on_filetype_changed=0
+let g:ale_completion_enabled=0
