@@ -20,11 +20,11 @@ endif
 call plug#begin('~/.vim/plugged')
 
 	Plug 'tpope/vim-fugitive'
-	if v:version > 800
-		Plug 'w0rp/ale'
-	else
-		Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-	endif
+    " if v:version > 800
+    "     Plug 'w0rp/ale'
+    " else
+    "     Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+    " endif
 	Plug 'majutsushi/tagbar'
 	Plug 'scrooloose/nerdtree'
 	Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -32,7 +32,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'junegunn/fzf.vim'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
-	Plug 'airblade/vim-gitgutter'
+	" Plug 'airblade/vim-gitgutter'
 	" Plug 'altercation/vim-colors-solarized'
 	" Plug 'fisadev/fisa-vim-colorscheme'
 
@@ -44,18 +44,24 @@ call plug#begin('~/.vim/plugged')
 
 	" Code commenter
 	Plug 'scrooloose/nerdcommenter'
+    " Plug 'nvie/vim-flake8'
+    " Plug 'vim-scripts/Pydiction'
+    " Plug 'vim-scripts/indentpython.vim'
+    " Plug 'scrooloose/syntastic'
 
 	" Python autocompletion, go to definition.
-    Plug 'davidhalter/jedi-vim'
+    " Plug 'davidhalter/jedi-vim'
 	" Better autocompletion
-    Plug 'Shougo/neocomplcache.vim'
+    " Plug 'Shougo/neocomplcache.vim'
 	" Plug 'ajh17/vimcompletesme'
     " Plug 'Valloric/YouCompleteMe'
+    " Plug 'klen/rope-vim'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 	Plug 'tpope/vim-surround'
 	Plug 'powerline/powerline-fonts'
-	Plug 'ajh17/spacegray.vim'
-	Plug 'cocopon/iceberg.vim'
+	" Plug 'ajh17/spacegray.vim'
+	" Plug 'cocopon/iceberg.vim'
 	Plug 'tpope/vim-repeat'
 	Plug 'tpope/vim-commentary'
 	Plug 'vim-scripts/ReplaceWithRegister'
@@ -63,7 +69,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'christoomey/vim-sort-motion'
 	Plug 'michaeljsmith/vim-indent-object'
 	Plug 'mileszs/ack.vim'
-	Plug 'nlknguyen/papercolor-theme'
+    " Plug 'nlknguyen/papercolor-theme'
+    Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -184,28 +191,28 @@ set ffs=unix,dos,mac
 
 " Colorscheme -------------------------------------
 " colorscheme iceberg
-colorscheme PaperColor
+
+" colorscheme PaperColor
+" set background=dark
+" let g:PaperColor_Theme_Options = {
+"   \   'theme': {
+"   \     'default.dark': {
+"   \       'override' : {
+"   \         'color00' : ['#010101', '232'],
+"   \         'linenumber_bg' : ['#010101', '232']
+"   \       }
+"   \     }
+"   \   }
+"   \ }
+
+colorscheme gruvbox
 set background=dark
-let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default.dark': {
-  \       'override' : {
-  \         'color00' : ['#010101', '232'],
-  \         'linenumber_bg' : ['#010101', '232']
-  \       }
-  \     }
-  \   }
-  \ }
 
 " Enable syntax highlighting
 syntax enable
 
 set cursorline
-hi CursorLine term=bold cterm=bold guibg=Grey40
-" ctermbg=Grey
-
-" highlight ColorColumn ctermbg=red
-" call matchadd('ColorColumn', '\%79v', 100)
+hi CursorLine guibg=Grey40
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -243,6 +250,8 @@ set wrap "Wrap lines
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
+" add conf file
+au! BufNewFile,BufReadPost *.{conf} set filetype=conf
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -261,8 +270,8 @@ map j gj
 map k gk
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
+" map <space> /
+" map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -272,9 +281,6 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-" Close the current buffer
-map <leader>bd :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :1,1000 bd!<cr>
@@ -400,7 +406,7 @@ map <leader>s? z=
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+" noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scripbble
 " map <leader>q :e ~/buffer<cr>
@@ -500,10 +506,7 @@ endfunction
 ""set t_kl=^[OD
 
 
-" Navigation ------------------------------------------------
-nnoremap <Leader>2 gt
-nnoremap <Leader>1 gT
-
+" Buffers ------------------------------------------------
 nnoremap <Leader>bn :bn<CR>
 nnoremap <Leader>bp :bp<CR>
 
@@ -555,8 +558,14 @@ set splitbelow
 " endf
 "
 
+"
+
 " Python keymap -------------------------------------------------------
 au! FileType python map <buffer> <Leader>B <Esc>Oimport pdb; pdb.set_trace()   # XXX BREAKPOINT<Esc>j0
+
+
+" GitGutter -----------------------------------------------------------
+let g:gitgutter_enabled=0
 
 " Tagbar --------------------------------------------------------------
 nmap <F8> :TagbarToggle<CR>
@@ -568,53 +577,26 @@ nmap <Leader>h :History<CR>
 nmap <Leader>t :BTags<CR>
 nmap <Leader>T :Tags<CR>
 nmap <Leader>l :BLines<CR>
-nmap <Leader>L :Lines<CR>
+nmap <Leader>; :Lines<CR>
 nmap <Leader>' :Marks<CR>
 nmap <Leader>c :Commands<CR>
+nmap <Leader>m :BCommits<CR>
 
 " NERDTree --------------------------------------------------------------------
 set shell=sh
 nmap <F5> :NERDTreeToggle<CR><c-w><c-w>
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
-" Airline ---------------------------------------------------------------------
-nmap <Leader>ar :AirlineRefresh<CR>
-
-if !exists('g:airline_symbols')
-let g:airline_symbols = {}
-endif
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-" let g:airline#extensions#tabline#left_sep = '▶'
-" let g:airline#extensions#tabline#left_alt_sep = ''
-" let g:airline#extensions#tabline#formatter = 'default'
-
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'powerlineish'
-" colorscheme ron
-
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.maxlinenr = ''
+" let g:NERDTreeGitStatusIndicatorMapCustom = {
+"     \ "Modified"  : "✹",
+"     \ "Staged"    : "✚",
+"     \ "Untracked" : "✭",
+"     \ "Renamed"   : "➜",
+"     \ "Unmerged"  : "═",
+"     \ "Deleted"   : "✖",
+"     \ "Dirty"     : "✗",
+"     \ "Clean"     : "✔︎",
+"     \ 'Ignored'   : '☒',
+"     \ "Unknown"   : "?"
+"     \ }
 
 
 " Commenter -------------------------------
@@ -636,79 +618,307 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
+" YCM --------------------------
+" let g:ycm_autoclose_preview_window_after_completion=1
+" "custom keys
+" map <leader>d  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+
 " Jedi-vim ------------------------------
 
-" All these mappings work only for python code:
-" let g:jedi#completions_command = "<C-N>"
-" let g:jedi#auto_initialization = 1
-" let g:jedi#popup_on_dot = 1
-" let g:jedi#show_call_signatures = 1
-" Go to definition
-let g:jedi#goto_command = ',d'
-" Find ocurrences
-let g:jedi#usages_command = ',o'
-" Find assignments
-let g:jedi#goto_assignments_command = ',a'
-" Go to definition in new tab
-nmap ,D :vsp <CR>:call jedi#goto()<CR>
+" " All these mappings work only for python code:
+" " let g:jedi#completions_command = "<C-N>"
+" " let g:jedi#auto_initialization = 1
+" " let g:jedi#popup_on_dot = 1
+" " let g:jedi#show_call_signatures = 1
+" " Go to definition
+" let g:jedi#goto_command = ',d'
+" " Find ocurrences
+" let g:jedi#usages_command = ',o'
+" " Find assignments
+" let g:jedi#goto_assignments_command = ',a'
+" " Go to definition in new tab
+" nmap ,D :vsp <CR>:call jedi#goto()<CR>
 
 
+" " ALE ------------------------------------------------
+" let g:ale_linters={
+"             \   'python': [
+"             \         'pyls',
+"             \         'flake8',
+"             \         'pycodestyle',
+"             \         'pylint',
+"             \         'pyflakes',
+"             \          ],
+"             \}
+" let g:ale_python_pylint_executable = 'python3'
+" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" let g:ale_fixers = {
+"             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+"             \   'python': [
+"             \       'autopep8',
+"             \       'isort',
+"             \   ],
+"             \}
+" let g:ale_lint_on_enter=0
+" let g:ale_lint_on_save=1
+" let g:ale_lint_on_filetype_changed=0
+" let g:ale_completion_enabled=0
 
 " NeoComplCache ------------------------------
 
-" most of them not documented because I'm not sure how they work
-" (docs aren't good, had to do a lot of trial and error to make
-" it play nice)
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_ignore_case = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_enable_fuzzy_completion = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_fuzzy_completion_start_length = 1
-let g:neocomplcache_auto_completion_start_length = 1
-let g:neocomplcache_manual_completion_start_length = 1
-let g:neocomplcache_min_keyword_length = 1
-let g:neocomplcache_min_syntax_length = 1
-" complete with workds from any opened file
-let g:neocomplcache_same_filetype_lists = {}
-let g:neocomplcache_same_filetype_lists._ = '_'
+" " most of them not documented because I'm not sure how they work
+" " (docs aren't good, had to do a lot of trial and error to make
+" " it play nice)
+" let g:neocomplcache_enable_at_startup = 1
+" let g:neocomplcache_enable_ignore_case = 1
+" let g:neocomplcache_enable_smart_case = 1
+" let g:neocomplcache_enable_auto_select = 1
+" let g:neocomplcache_enable_fuzzy_completion = 1
+" let g:neocomplcache_enable_camel_case_completion = 1
+" let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_fuzzy_completion_start_length = 1
+" let g:neocomplcache_auto_completion_start_length = 1
+" let g:neocomplcache_manual_completion_start_length = 1
+" let g:neocomplcache_min_keyword_length = 1
+" let g:neocomplcache_min_syntax_length = 1
+" " complete with workds from any opened file
+" let g:neocomplcache_same_filetype_lists = {}
+" let g:neocomplcache_same_filetype_lists._ = '_'
 
 " VimCompletesMe ------------------------------------
 " autocmd FileType vim let b:vcm_tab_complete = 'vim'
 
 " Pymode --------------------------------------
-if has('python')
-let g:pymode_python = 'python'
-else
-let g:pymode_python = 'python3'
-endif
-" let g:pymode_breakpoint_bind = '<leader>B'
-" let g:pymode_breakpoint_cmd = 'import pdb; pdb.set_trace()  # XXX BREAKPOINT'
-let g:pymode_options_colorcolumn = 1
+" if has('python')
+" let g:pymode_python = 'python'
+" else
+" let g:pymode_python = 'python3'
+" endif
+" let g:pymode_options_colorcolumn = 1
 
-" ALE ------------------------------------------------
-let g:ale_linters={
-            \   'python': [
-            \         'pyls',
-            \         'flake8',
-            \         'pycodestyle',
-            \         'pylint',
-            \         'pyflakes',
-            \          ],
-            \}
-let g:ale_python_pylint_executable = 'python3'
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-let g:ale_fixers = {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'python': [
-            \       'autopep8',
-            \       'isort',
-            \   ],
-            \}
-let g:ale_lint_on_enter=0
-let g:ale_lint_on_save=1
-let g:ale_lint_on_filetype_changed=0
-let g:ale_completion_enabled=0
+" COC start ------------------------------------------
+let g:coc_disable_startup_warning = 1
+
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  " set signcolumn=yes
+  set signcolumn=no
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>fr  <Plug>(coc-format-selected)
+nmap <leader>fr  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+" COC end ------------------------------------------
+
+" Airline ---------------------------------------------------------------------
+nmap <Leader>ar :AirlineRefresh<CR>
+
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+" let g:airline#extensions#tabline#left_sep = '▶'
+" let g:airline#extensions#tabline#left_alt_sep = ''
+" let g:airline#extensions#tabline#formatter = 'default'
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'powerlineish'
+
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty=''
+
+
+" ColorColumn for python
+highlight ColorColumn term=reverse cterm=bold,reverse ctermfg=red ctermbg=black
+autocmd FileType python call matchadd('ColorColumn', '\%100v', 100)
+
+
+
+" Special highlighting for search results -------------------------------
+
+map <silent> n  n:call HLNext(0.4)<CR>
+map <silent> N  N:call HLNext(0.4)<CR>
+" map <silent> N  N:let v:errmsg=''<CR>:silent! norm! N<CR>:call <SNR>46_ShowCurrentSearchIndex(0,'!')<CR>:call HLNext(0.4)<CR>
+
+highlight WhiteOnRed ctermfg=white ctermbg=red
+
+function! HLNext (blinktime)
+    let [bufnum, lnum, col, off] = getpos('.')
+    let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+    let target_pat = '\c\%#'.@/
+    let blinks = 3
+    for n in range(1, blinks)
+        let red = matchadd('WhiteOnRed', target_pat, 101)
+        redraw
+        exec 'sleep ' . float2nr(a:blinktime / (2*blinks) * 1000) . 'm'
+        call matchdelete(red)
+        redraw
+        exec 'sleep ' . float2nr(a:blinktime / (2*blinks) * 1000) . 'm'
+    endfor
+endfunction
+

@@ -8,8 +8,9 @@ export ZSH="/root/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
+# ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -98,16 +99,23 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vf='vim $(find . -type f | egrep -v ".git" | fzf)'
-alias k9='kill -9 $(ps ax | fzf | awk "{print\$1}")'
-alias vd='vimdiff'
-alias v='vim'
+alias vz="vim -u ~/.vimrc ~/.zshrc"
+alias vomz="vim  -u ~/.vimrc ~/.oh-my-zsh"
+alias vf='vim -u ~/.vimrc $(find . -type f | egrep -v ".git" | fzf -m)'
+alias k9='kill -9 $(ps ax | fzf -m| awk "{print\$1}")'
+alias vd='vimdiff -u ~/.vimrc'
+alias v='vim -u ~/.vimrc'
 alias ssg='secfsd -status guard'
 alias ssgv='secfsd -status guard -v'
 alias vhs='vmssc host show'
 alias psh='parallel-ssh'
+alias sz='source ~/.zshrc'
+
+export EDITOR=vim
+
+# source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+# 
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export EDITOR=vim
