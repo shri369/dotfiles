@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -9,8 +16,8 @@ export ZSH="/root/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="spaceship"
-# ZSH_THEME=""
+# ZSH_THEME="spaceship"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -26,7 +33,7 @@ ZSH_THEME="spaceship"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -70,7 +77,7 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract rsync zsh-syntax-highlighting)
+plugins=(git extract rsync)
 
 # SPACESHIP_EXIT_CODE_SHOW=true
 
@@ -102,16 +109,38 @@ source $ZSH/oh-my-zsh.sh
 alias vz="vim -u ~/.vimrc ~/.zshrc"
 alias vomz="vim  -u ~/.vimrc ~/.oh-my-zsh"
 alias vf='vim -u ~/.vimrc $(find . -type f | egrep -v ".git" | fzf -m)'
+alias ff='find . | egrep -v ".git" | fzf -m'
 alias k9='kill -9 $(ps ax | fzf -m| awk "{print\$1}")'
 alias vd='vimdiff -u ~/.vimrc'
 alias v='vim -u ~/.vimrc'
 alias ssg='secfsd -status guard'
 alias ssgv='secfsd -status guard -v'
 alias vhs='vmssc host show'
-alias psh='parallel-ssh'
+# alias psh='parallel-ssh'
 alias sz='source ~/.zshrc'
+alias lb7='ls -lrtd /NFS_BUILDS/unified/fsagent/7*/* | tail'
+alias lb6='ls -lrtd /NFS_BUILDS/unified/fsagent/6*/* | tail'
+alias lart='ls -lart'
+alias py='python'
+alias py3='python3'
+alias py2='python2'
 
 export EDITOR=vim
+
+function s()
+{
+    # SSH="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa -o PreferredAuthentications=publickey -o BatchMode=yes -o ConnectTimeout=10 -o LogLevel=ERROR"
+    if ! (ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa -o PreferredAuthentications=publickey -o BatchMode=yes -o ConnectTimeout=10 -o LogLevel=ERROR $1 &>/dev/null); then
+        if (ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa -o PreferredAuthentications=publickey -o BatchMode=yes -o ConnectTimeout=10 -o LogLevel=ERROR $1 "ls" 2>&1 | grep 'publickey' &>/dev/null); then
+            echo -n "$(whoami)@$1 password: "
+            read -s _pass
+            echo ""
+            /opt/tools/set_passwordlessSSH.sh -host ${1} -user $(whoami) -pass $_pass -default -nokeygen &>/dev/null
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa -o PreferredAuthentications=publickey -o BatchMode=yes -o ConnectTimeout=10 -o LogLevel=ERROR $1
+        fi
+    fi
+}
+
 
 # source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 # 
@@ -119,3 +148,8 @@ export EDITOR=vim
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /root/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH=/root/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/root/.fzf/bin:/usr/local/vim8/bin/
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
